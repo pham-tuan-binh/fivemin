@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fivemin.</title>
+<meta name="description" content="In a world where time is gold, we make every 5 minutes count.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<meta property="og:title" content="Fivemin.">
+<meta property="og:description" content="In a world where time is gold, we make every 5 minutes count.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fivemin.co">
+<meta property="og:image" content="/assets/thumbnail.png">
+</head>
+<body>
+
+
+<div class="w-screen h-screen flex flex-col items-center justify-center absolute z-10 bg-transparent p-4">
+    <img src="/assets/fivemin_logo.png" class="w-64 mb-6">
+    <div class="mb-8 max-w-96 text-center">
+        In a world where time is gold, we make every 5 minutes count.
+    </div>
+    
+    <form id="emailForm" class="flex flex-row max-w-96 w-full gap-4">
+        <input id="email-address" name="email" type="email" autocomplete="email" required class="min-w-0 flex-auto rounded-md border-0 bg-black/5 px-3.5 py-4 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6" placeholder="Want in? Drop your email here.">
+        <button id="submit-button" type="submit" class="rounded-md bg-indigo-500 px-4 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3" />
+            </svg>         
+        </button>
+    </form>
+    <div id="message-box" class="w-full mb-8 max-w-96 text-left text-xs mt-2">
+    </div>
+</div>
+<img class="w-screen h-screen absolute opacity-50" src="/assets/background.png"/>
+
+
+<script>
+let email_list = "https://script.google.com/macros/s/AKfycbzi_rnZylbrYyusOfQoyEasDlw40PkM-21NwjpeX7qDFyGPgwTP-VpevOtbW1YGEcVR2A/exec"
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('emailForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var submit = document.getElementById('submit-button');
+
+        submit.classList.remove("bg-green-500");
+        submit.classList.remove("bg-rose-500");
+        submit.classList.remove("bg-indigo-500");
+        submit.classList.add("bg-yellow-500");
+
+        var email = document.getElementById('email-address').value;
+
+        var message = document.getElementById('message-box');
+
+        
+
+        
+
+
+        message.innerHTML = "Loading";
+
+
+
+        fetch(`${email_list}?email=` + encodeURIComponent(email))
+            .then(data => data.json())
+            .then(function(data) {
+                submit.classList.remove("bg-yellow-500");
+
+                if (data.status == 400) {
+                    message.innerHTML = data.message;
+                    submit.classList.add("bg-rose-500");
+                }
+                else if (data.status == 200) {
+                    message.innerHTML = data.message;
+                    submit.classList.add("bg-green-500");
+
+                }
+            })
+            .catch(function(error) {
+                console.error('Request failed', error);
+            });
+    });
+});
+</script>
+<style>
+    body {
+        font-family: "Inter", sans-serif;
+        font-weight: 300;
+    }
+
+</style>
+</body>
+</html>
